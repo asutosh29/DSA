@@ -1,14 +1,14 @@
 #include <iostream>
 using namespace std;
 
-void str_to_upper(char *str)
+void str_to_lower(char *str)
 {
     char *ptr = str;
     while (*ptr != '\0')
     {
-        if ('a' <= *ptr && *ptr <= 'z')
+        if ('A' <= *ptr && *ptr <= 'Z')
         {
-            *ptr = char(*ptr + 'A' - 'a');
+            *ptr = char(*ptr - 'A' + 'a');
         }
         ptr++;
     }
@@ -26,8 +26,8 @@ int main()
         cout << "Enter a string: ";
         cin.getline(str, 100);
 
-        str_to_upper(str);
-        cout << "Uppercase: " << str << endl;
+        str_to_lower(str);
+        cout << "Lowercase: " << str << endl;
     }
 
     return 0;

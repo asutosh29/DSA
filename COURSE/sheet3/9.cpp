@@ -69,7 +69,7 @@ Node *create()
     {
         if (head == nullptr)
         {
-            cout << "Enter head element name: ";
+            cout << "Enter name (END to stop): ";
             char *name = input_line();
             cout << name << endl;
             if (!strcmp(name, "END"))
@@ -80,7 +80,7 @@ Node *create()
             curr = head;
             continue;
         }
-        cout << "Enter name: ";
+        cout << "Enter name (END to stop): ";
         char *name = input_line();
         if (!strcmp(name, "END"))
         {
@@ -115,17 +115,9 @@ Node *find(Node *head, char *key)
 
 Node *delete_node(Node *head, Node *loc)
 {
-
     if (head == nullptr || loc == nullptr)
     {
         cout << "Location not found or List is empty" << endl;
-        return head;
-    }
-
-    if (loc == head)
-    {
-        delete loc;
-        head = head->next;
         return head;
     }
 
@@ -143,6 +135,7 @@ Node *delete_node(Node *head, Node *loc)
     }
 
     prev->next = ptr->next;
+    cout << "Deleting " << ptr->data << endl;
     delete ptr;
     return head;
 }
@@ -169,7 +162,7 @@ void josephus(Node *head)
         return;
     }
     Node *ptr = start;
-    while (ptr->next != ptr)
+    while(ptr != ptr->next)
     {
         for (int i = 0; i < n - 1; i++)
         {
@@ -178,7 +171,6 @@ void josephus(Node *head)
         head = delete_node(head, ptr);
         ptr = ptr->next;
     }
-
     cout << "Final person to exit: " << ptr->data << endl;
     return;
 }

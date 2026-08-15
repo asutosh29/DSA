@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-void reverse(char *str)
+bool is_palindrome(char *str)
 {
     char *end = str;
     while (*end != '\0')
@@ -10,15 +10,18 @@ void reverse(char *str)
     }
     end--;
     char *front = str;
+    bool isPal = true;
     while (front <= end)
     {
-        char temp = *front;
-        *front = *end;
-        *end = temp;
-
+        if (*front != *end)
+        {
+            isPal = false;
+            break;
+        }
         front++;
         end--;
     }
+    return isPal;
 }
 
 int main()
@@ -33,8 +36,14 @@ int main()
         cout << "Enter a string: ";
         cin.getline(str, 100);
 
-        reverse(str);
-        cout << "Reversed: " << str << endl;
+        if (is_palindrome(str))
+        {
+            cout << str << " is a palindrome." << endl;
+        }
+        else
+        {
+            cout << str << " is not a palindrome." << endl;
+        }
     }
     return 0;
 }

@@ -218,7 +218,6 @@ void test()
         print_student(*students[i]);
     }
 
-    // Freeing memory from heap
     for (int i = 0; i < t; i++)
     {
         delete students[i];

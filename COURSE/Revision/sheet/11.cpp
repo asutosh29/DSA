@@ -17,14 +17,15 @@ struct Complex
     };
 };
 
-Complex* add_cmplx(Complex *c1, Complex *c2)
+Complex *add_cmplx(Complex *c1, Complex *c2)
 {
     Complex *result = new Complex();
     result->real = c1->real + c2->real;
     result->img = c1->img + c2->img;
     return result;
 }
-Complex* mult_cmplx(Complex *c1, Complex *c2)
+
+Complex *mult_cmplx(Complex *c1, Complex *c2)
 {
     Complex *result = new Complex();
     result->real = c1->real * c2->real - c1->img * c2->img;
@@ -32,9 +33,9 @@ Complex* mult_cmplx(Complex *c1, Complex *c2)
     return result;
 }
 
-Complex* div_cmplx(Complex *c1, Complex *c2)
+Complex *div_cmplx(Complex *c1, Complex *c2)
 {
-    if(c2->real == 0 && c2->img == 0)
+    if (c2->real == 0 && c2->img == 0)
     {
         cout << "Error: Division by zero complex number!" << endl;
         return nullptr;
@@ -46,46 +47,69 @@ Complex* div_cmplx(Complex *c1, Complex *c2)
     return result;
 }
 
-Complex* negate_cmplx(Complex *c)
+Complex *negate_cmplx(Complex *c) // returns conjugate as a NEW object
 {
-    c->img = -c->img;
-    return c;
+    Complex *result = new Complex(c->real, -c->img);
+    return result;
 }
 
-void test_cmplx(){
-    
-    Complex *c1 = new Complex(3.0f, 4.0f);
-    Complex *c2 = new Complex(1.0f, 2.0f);
+void print_cmplx(const char *label, Complex *c)
+{
+    cout << label << ": " << c->real;
+    if (c->img >= 0)
+        cout << " + " << c->img << "i" << endl;
+    else
+        cout << " - " << (-c->img) << "i" << endl;
+}
 
-    cout << "c1: " << c1->real << " + " << c1->img << "i" << endl;
-    cout << "c2: " << c2->real << " + " << c2->img << "i" << endl;
+void test()
+{
+    float r1, i1, r2, i2;
+
+    cout << "Enter first complex number (real imag): ";
+    cin >> r1 >> i1;
+    Complex *c1 = new Complex(r1, i1);
+
+    cout << "Enter second complex number (real imag): ";
+    cin >> r2 >> i2;
+    Complex *c2 = new Complex(r2, i2);
+
+    print_cmplx("c1", c1);
+    print_cmplx("c2", c2);
 
     Complex *sum = add_cmplx(c1, c2);
-    cout << "Sum: " << sum->real << " + " << sum->img << "i" << endl;
+    print_cmplx("Sum", sum);
 
     Complex *product = mult_cmplx(c1, c2);
-    cout << "Product: " << product->real << " + " << product->img << "i" << endl;
+    print_cmplx("Product", product);
 
     Complex *quotient = div_cmplx(c1, c2);
     if (quotient != nullptr)
     {
-        cout << "Quotient: " << quotient->real << " + " << quotient->img << "i" << endl;
+        print_cmplx("Quotient", quotient);
         delete quotient;
     }
 
-    Complex *negated = negate_cmplx(c1);
-    cout << "Negated c1: " << negated->real << " + " << negated->img << "i" << endl;
+    Complex *conj1 = negate_cmplx(c1);
+    print_cmplx("Conjugate of c1", conj1);
 
-    // Freeing memory from heap
     delete c1;
     delete c2;
     delete sum;
     delete product;
-    delete negated;
+    delete conj1;
 }
 
 int main()
 {
-    test_cmplx();
+    int t;
+    cout << "Enter number of test cases: ";
+    cin >> t;
+    cin.ignore();
+    while (t--)
+    {
+        test();
+    }
+
     return 0;
 }

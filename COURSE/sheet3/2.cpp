@@ -29,7 +29,6 @@ Node *create_sorted()
         cin >> temp;
         
     }
-    
 }
 
 int main()

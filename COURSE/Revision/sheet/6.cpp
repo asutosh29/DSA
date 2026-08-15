@@ -1,12 +1,16 @@
 #include <iostream>
 using namespace std;
 
-void str_to_upper(char *str)
+void invert(char *str)
 {
     char *ptr = str;
     while (*ptr != '\0')
     {
-        if ('a' <= *ptr && *ptr <= 'z')
+        if ('A' <= *ptr && *ptr <= 'Z')
+        {
+            *ptr = char(*ptr - 'A' + 'a');
+        }
+        else if ('a' <= *ptr && *ptr <= 'z')
         {
             *ptr = char(*ptr + 'A' - 'a');
         }
@@ -26,8 +30,8 @@ int main()
         cout << "Enter a string: ";
         cin.getline(str, 100);
 
-        str_to_upper(str);
-        cout << "Uppercase: " << str << endl;
+        invert(str);
+        cout << "Inverted case: " << str << endl;
     }
 
     return 0;

@@ -1,37 +1,63 @@
 #include <iostream>
 using namespace std;
 
-int *insert(int *arr, int n, int val)
+int *insert(int *arr, int n, int *val)
 {
-    int* temp = new int[n+1]; // allocated in heap so that it persists after stack pops
-    int i= 0;
+    int *temp = new int[n + 1]; // allocated in heap so that it persists after stack pops
+    int i = 0;
     for (i = 0; i < n; i++)
     {
-        if(arr[i] < val){
+        if (arr[i] < *val)
+        {
             temp[i] = arr[i];
-        }else{
-            temp[i] = val;
+        }
+        else
+        {
+            temp[i] = *val;
             break;
         }
     }
     for (int j = i; j < n; j++)
     {
-        temp[j+1] = arr[j];
+        temp[j + 1] = arr[j];
     }
+    if (i == n)
+        temp[n] = *val; // val is largest, insert at end
     return temp;
 }
 
 int main()
 {
-    const int N = 5;
-    int arr[N] = {1, 2, 3, 4, 5};
-    auto ans = insert(arr, N, 3);
-    for (int i = 0; i < N+1; i++)
+    int n;
+    cout << "Enter size of sorted array: ";
+    cin >> n;
+
+    if (n < 0)
     {
-        cout << ans[i] << " ";
+        cout << "Invalid size. Size must be non-negative." << endl;
+        return 0;
     }
+
+    int *arr = new int[n];
+    if (n > 0)
+    {
+        cout << "Enter " << n << " sorted integers: ";
+    }
+    for (int i = 0; i < n; i++)
+        cin >> arr[i];
+
+    int val;
+    cout << "Enter value to insert: ";
+    cin >> val;
+
+    int *ans = insert(arr, n, &val);
+
+    cout << "Array after insertion: ";
+    for (int i = 0; i < n + 1; i++)
+        cout << ans[i] << " ";
     cout << endl;
 
-    // size has to be increase.
+    delete[] arr;
+    delete[] ans;
     return 0;
 }
