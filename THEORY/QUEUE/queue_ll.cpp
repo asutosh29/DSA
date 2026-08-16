@@ -19,16 +19,16 @@ struct Node
 
 struct Queue
 {
-    Node *front, *rear;
+    Node *rear, *front;
     Queue()
     {
-        front = rear = nullptr;
+        rear = front = nullptr;
     }
 };
 
 bool isEmpty(Queue *queue)
 {
-    return queue->front == nullptr;
+    return queue->rear == nullptr;
 }
 
 bool isFull(Queue *queue)
@@ -38,7 +38,7 @@ bool isFull(Queue *queue)
 
 void enqueue(Queue *queue, int x)
 {
-    if (!isFull(queue))
+    if (isFull(queue))
     {
         cout << "Queue is Full" << endl;
         return;
@@ -47,13 +47,13 @@ void enqueue(Queue *queue, int x)
     Node *temp = new Node(x);
     if (queue->front == nullptr)
     {
-        queue->front = temp;
         queue->rear = temp;
+        queue->front = temp;
     }
     else
     {
-        queue->front->next = temp;
-        queue->front = temp;
+        queue->rear->next = temp;
+        queue->rear = temp;
     }
 }
 
@@ -64,8 +64,12 @@ int dequeue(Queue *queue)
         cout << "Queue is empty" << endl;
         return -1;
     }
-    Node *temp = queue->rear;
-    queue->rear = queue->rear->next;
+    Node *temp = queue->front;
+    queue->front = queue->front->next;
+    if(queue->front == nullptr)
+    {
+        queue->rear = nullptr;
+    }
     int x = temp->data;
     delete temp;
     return x;
@@ -79,12 +83,13 @@ void printQueue(Queue *queue)
         cout << "Queue is empty" << endl;
         return;
     }
-    Node* start = queue->rear;
-    Node* end = queue->front;
+    Node* start = queue->front;
+    Node* end = queue->rear;
     while (start != end->next){
-        cout << start->data << endl;
+        cout << start->data << " ";
         start = start->next;
     }
+    cout << endl;
 }
 
 void test_queue(){
@@ -96,7 +101,7 @@ void test_queue(){
     enqueue(queue, 4);
     enqueue(queue, 5);
     printQueue(queue);
-    enqueue(queue, 6); // Queue is full
+    enqueue(queue, 6);
     dequeue(queue);
     dequeue(queue);
     dequeue(queue);
@@ -104,6 +109,7 @@ void test_queue(){
     enqueue(queue, 6);
     enqueue(queue, 7);
     printQueue(queue);
+    dequeue(queue);
     dequeue(queue);
     dequeue(queue);
     dequeue(queue);
