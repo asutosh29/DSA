@@ -97,9 +97,6 @@ StackElement pop(HeteroStack& stack){
         return emptyElem;
     }
     StackElement item = stack.data[stack.top];
-    if (item.type == TYPE_STRING) {
-        delete[] item.value.stringVal; // Free the allocated memory for string
-    }
     stack.top--;
     return item;
 }
@@ -131,13 +128,37 @@ void printStack(HeteroStack& stack)
     cout << endl;
 }
 
-int main()
+void test_stack()
 {
     HeteroStack stack;
     push(stack, 5);
     push(stack, 3.14f);
-    push(stack, (char *)"Hello, World!");
+    push(stack, "Hi there!");
     printStack(stack);
 
+    StackElement poppedItem = pop(stack);
+    cout << "Popped item: ";
+    switch (poppedItem.type)
+    {
+    case TYPE_INT:
+        cout << poppedItem.value.intVal << endl;
+        break;
+    case TYPE_FLOAT:
+        cout << poppedItem.value.floatVal << endl;
+        break;
+    case TYPE_STRING:
+        cout << poppedItem.value.stringVal << endl;
+        delete[] poppedItem.value.stringVal; // Free the allocated memory for the string
+        break;
+    default:
+        break;
+    }
+
+    printStack(stack);
+}
+
+int main()
+{
+    test_stack();
     return 0;
 }
