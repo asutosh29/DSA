@@ -28,7 +28,7 @@ struct Queue
 
 bool isEmpty(Queue *queue)
 {
-    return queue->rear == nullptr;
+    return queue->front == nullptr;
 }
 
 bool isFull(Queue *queue)
