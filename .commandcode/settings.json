@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Shell(git:*)",
+      "Shell(g++:*)",
+      "Shell(ls -la /mnt/c/Users/asuto/amxcodes/TECH/repositories/DSA/COURSE/Revision/sheet/*.cpp 2>/dev/null; echo \"---\"; grep -rl \"Tower\\|Hanoi\" /mnt/c/Users/asuto/amxcodes/TECH/repositories/DSA/COURSE 2>/dev/null | head -20)"
+    ],
+    "deny": [],
+    "defaultMode": "default"
+  }
+}

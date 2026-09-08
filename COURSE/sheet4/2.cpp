@@ -119,6 +119,59 @@ void __print(Stack *st)
     cout << "\n";
 }
 
+int calculate(char op, int x1, int x2)
+{
+    int result = 0;
+    switch (op)
+    {
+    case '+':
+        result = x1 + x2;
+        break;
+    case '-':
+        result = x1 - x2;
+        break;
+    case '*':
+        result = x1 * x2;
+        break;
+    case '/':
+        result = x1 / x2;
+        break;
+    default:
+        break;
+    }
+    return result;
+}
+
+void reverse(char *str)
+{
+    int i = 0, j = strlen(str) - 1;
+    while (i < j)
+    {
+        swap(str[i], str[j]);
+        i++;
+        j--;
+    }
+}
+
+void flipBrackets(char *str)
+{
+    int i = 0, j = strlen(str) - 1;
+    while (i < j)
+    {
+
+        if (str[i] == '(')
+        {
+            str[i] = ')';
+        }
+        if (str[i] == ')')
+        {
+            str[i] = '(';
+        }
+        i++;
+        j--;
+    }
+}
+
 int precedance(char op)
 {
     if (op == '*' || op == '/')
@@ -169,29 +222,6 @@ char *Inf_T_postF(char *infix)
     return postfix;
 }
 
-int calculate(char op, int x1, int x2)
-{
-    int result = 0;
-    switch (op)
-    {
-    case '+':
-        result = x1 + x2;
-        break;
-    case '-':
-        result = x1 - x2;
-        break;
-    case '*':
-        result = x1 * x2;
-        break;
-    case '/':
-        result = x1 / x2;
-        break;
-    default:
-        break;
-    }
-    return result;
-}
-
 int PostF_Eval(char *postfix)
 {
     Stack *st = new Stack();
@@ -215,6 +245,42 @@ int PostF_Eval(char *postfix)
     return stackTop(st);
 }
 
+char *Inf_T_preF(char *infix)
+{
+    // Reverse the infix expression
+    reverse(infix);
+    flipBrackets(infix);
+    // Convert to postfix
+    char *pst = Inf_T_postF(infix);
+    // Reverse the postfix expression to get prefix
+    reverse(pst);
+    reverse(infix); // undo reversal
+    return pst;
+}
+
+int PreF_Eval(char *postfix)
+{
+    Stack *st = new Stack();
+    int i = strlen(postfix) - 1;
+    while (i >= 0)
+    {
+        if (postfix[i] >= '0' && postfix[i] <= '9')
+        {
+            push(st, postfix[i--]);
+        }
+        else
+        {
+            char x1 = pop(st) - '0';
+            char x2 = pop(st) - '0';
+            char op = postfix[i];
+            int result = calculate(op, x1, x2);
+            push(st, result);
+            i--;
+        }
+    }
+    return stackTop(st);
+}
+
 int main()
 {
     char infix[] = "1+2-3*9";
@@ -222,5 +288,10 @@ int main()
     char *postfix = Inf_T_postF(infix);
     cout << postfix << endl;
     cout << PostF_Eval(postfix) << endl;
+    cout << "---" << endl;
+    cout << infix << endl;
+    char *prefix = Inf_T_preF(infix);
+    cout << prefix << endl;
+    cout << PreF_Eval(prefix) << endl;
     return 0;
 }
